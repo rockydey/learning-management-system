@@ -4,9 +4,8 @@ import { usePathname } from "next/navigation";
 import LogoIcon from "@/assets/Shared/LogoIcon.png";
 import Image from "next/image";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { MdHighlightOff } from "react-icons/md";
-import { gsap } from "gsap";
 
 const menus = [
   {
@@ -34,40 +33,15 @@ const menus = [
 function Navbar() {
   const pathname = usePathname();
   const [toggle, setToggle] = useState(false);
-  const menuRef = useRef(null);
 
-  useEffect(() => {
-    if (menuRef.current) {
-      if (toggle) {
-        gsap.fromTo(
-          menuRef.current,
-          { y: -80, opacity: 0, zIndex: -1 },
-          {
-            y: 60,
-            opacity: 1,
-            duration: 0.5,
-            ease: "power3.out",
-            zIndex: 50,
-          }
-        );
-      } else {
-        gsap.to(menuRef.current, {
-          y: -80,
-          opacity: 0,
-          duration: 0.5,
-          ease: "power3.in",
-          zIndex: -1,
-        });
-      }
-    }
-  }, [toggle]);
+  console.log(pathname);
 
   useEffect(() => {
     setToggle(false);
   }, [pathname]);
 
   return (
-    <nav className="bg-primary py-5 shadow-lg fixed top-0 w-full">
+    <nav className="bg-primary py-5 shadow-lg fixed top-0 w-full z-40">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-5 xl:px-0 relative">
         <Link href="/" className="flex items-center gap-1.5">
           <Image
@@ -126,19 +100,21 @@ function Navbar() {
 
         {/* Toggle Mobile Menu */}
         <div
-          ref={menuRef}
-          className={`
-          absolute top-0 left-0 w-full bg-white md:hidden
-          shadow-md py-5 space-y-2 z-50
-          ${toggle ? "block" : "hidden"}
-        `}
+          className={`absolute top-0 left-0 w-full bg-white 
+          transition-transform duration-500 shadow-md py-5 space-y-2 z-50 ease-in-out
+          ${
+            toggle
+              ? "transform translate-y-[60px]"
+              : "transform -translate-y-80"
+          }`}
         >
           {menus.map((menu) => (
             <p key={menu.path} className="px-5">
               <Link
                 href={menu.path}
-                className={`
-                ${pathname === menu.path ? "text-primary" : "text-secondary"}
+                className={`${
+                  pathname === menu.path ? "text-primary" : "text-secondary"
+                }
                 hover:text-primary hover:duration-300 transition-all font-semibold
               `}
               >

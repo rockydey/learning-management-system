@@ -31,7 +31,7 @@ export default function RootLayout({
         cz-shortcut-listen="true"
         className={`${nunito.variable} ${josefin_sans.variable} antialiased`}
       >
-        <div className="mb-24">
+        <div className="mb-20">
           <Navbar />
         </div>
         {children}
