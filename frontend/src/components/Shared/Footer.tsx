@@ -7,7 +7,7 @@ import { FaFacebookF, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
 function Footer() {
   return (
     <footer
-      className="relative bg-cover bg-center bg-no-repeat bg-fixed"
+      className="relative bg-cover bg-center bg-no-repeat bg-fixed mt-16"
       style={{
         backgroundImage: `url(${footerBg.src})`,
       }}
