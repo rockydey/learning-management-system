@@ -13,11 +13,11 @@ function Footer() {
       }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/80 z-0" />
+      <div className="absolute inset-0 bg-black/80" />
 
       {/* Main Footer Content */}
       <div className="relative z-10 text-white w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto py-20  px-5 xl:px-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto py-14  px-5 xl:px-0">
           {/* Brand Info */}
           <div className="space-y-5">
             <Link href="/" className="flex items-center gap-3">

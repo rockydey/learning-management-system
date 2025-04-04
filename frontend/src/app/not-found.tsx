@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function NotFound() {
   return (
-    <div className="relative h-[80vh] w-full z-0">
+    <div className="relative h-[49.5vh] w-full">
       {/* Background Image */}
       <Image
         src={notFoundImg}
