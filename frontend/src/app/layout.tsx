@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito, Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Shared/Navbar";
+import Footer from "@/components/Shared/Footer";
 
 // Load fonts with desired weights & styles
 const nunito = Nunito({
@@ -35,6 +36,9 @@ export default function RootLayout({
           <Navbar />
         </div>
         {children}
+        <div>
+          <Footer />
+        </div>
       </body>
     </html>
   );

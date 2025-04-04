@@ -21,10 +21,6 @@ const menus = [
     path: "/courses",
   },
   {
-    title: "Instructors",
-    path: "/instructors",
-  },
-  {
     title: "Blog",
     path: "/blogs",
   },
@@ -33,8 +29,6 @@ const menus = [
 function Navbar() {
   const pathname = usePathname();
   const [toggle, setToggle] = useState(false);
-
-  console.log(pathname);
 
   useEffect(() => {
     setToggle(false);
