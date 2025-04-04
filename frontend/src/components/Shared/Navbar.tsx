@@ -3,6 +3,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LogoIcon from "@/assets/Shared/LogoIcon.png";
 import Image from "next/image";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { useEffect, useRef, useState } from "react";
+import { MdHighlightOff } from "react-icons/md";
+import { gsap } from "gsap";
 
 const menus = [
   {
@@ -29,21 +33,54 @@ const menus = [
 
 function Navbar() {
   const pathname = usePathname();
+  const [toggle, setToggle] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (menuRef.current) {
+      if (toggle) {
+        gsap.fromTo(
+          menuRef.current,
+          { y: -80, opacity: 0, zIndex: -1 },
+          {
+            y: 60,
+            opacity: 1,
+            duration: 0.5,
+            ease: "power3.out",
+            zIndex: 50,
+          }
+        );
+      } else {
+        gsap.to(menuRef.current, {
+          y: -80,
+          opacity: 0,
+          duration: 0.5,
+          ease: "power3.in",
+          zIndex: -1,
+        });
+      }
+    }
+  }, [toggle]);
+
+  useEffect(() => {
+    setToggle(false);
+  }, [pathname]);
 
   return (
     <nav className="bg-primary py-5 shadow-lg fixed top-0 w-full">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-5 xl:px-0 relative">
         <Link href="/" className="flex items-center gap-1.5">
           <Image
             src={LogoIcon}
             alt="Logo Icon"
-            className="w-12 h-12 object-cover"
+            className="lg:w-12 w-10 lg:h-12 h-10 object-cover"
           />
-          <h2 className="text-secondary text-3xl font-bold josefin">
+          <h2 className="text-secondary text-2xl lg:text-3xl font-bold josefin">
             Academix
           </h2>
         </Link>
-        <div className="space-x-6 text-lg font-semibold">
+        {/* Desktop Menu */}
+        <div className="space-x-6 text-base lg:text-lg font-semibold hidden md:block">
           {menus.map((menu) => (
             <Link
               key={menu.path}
@@ -58,13 +95,57 @@ function Navbar() {
             </Link>
           ))}
         </div>
-        <div>
+        <div className="hidden md:block">
           <Link
             href="/login"
-            className="text-lg font-semibold text-secondary border-2 px-4 py-2 rounded-full border-secondary"
+            className="text-base lg:text-lg font-semibold text-secondary border-2 px-3.5 lg:px-4 py-1.5 lg:py-2 rounded-full border-secondary"
           >
             Login
           </Link>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className="md:hidden flex items-center gap-2">
+          <Link
+            href="/login"
+            className="text-base font-semibold text-secondary border-2 px-3.5 py-1.5 rounded-full border-secondary"
+          >
+            Login
+          </Link>
+          <button
+            onClick={() => setToggle(!toggle)}
+            className="text-secondary cursor-pointer"
+          >
+            {toggle ? (
+              <MdHighlightOff size={24} />
+            ) : (
+              <GiHamburgerMenu size={24} />
+            )}
+          </button>
+        </div>
+
+        {/* Toggle Mobile Menu */}
+        <div
+          ref={menuRef}
+          className={`
+          absolute top-0 left-0 w-full bg-white md:hidden
+          shadow-md py-5 space-y-2 z-50
+          ${toggle ? "block" : "hidden"}
+        `}
+        >
+          {menus.map((menu) => (
+            <p key={menu.path} className="px-5">
+              <Link
+                href={menu.path}
+                className={`
+                ${pathname === menu.path ? "text-primary" : "text-secondary"}
+                hover:text-primary hover:duration-300 transition-all font-semibold
+              `}
+              >
+                {menu.title}
+              </Link>
+            </p>
+          ))}
         </div>
       </div>
     </nav>

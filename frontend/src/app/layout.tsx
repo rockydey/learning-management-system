@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito, Josefin_Sans } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Shared/Navbar";
 
 // Load fonts with desired weights & styles
 const nunito = Nunito({
@@ -30,6 +31,9 @@ export default function RootLayout({
         cz-shortcut-listen="true"
         className={`${nunito.variable} ${josefin_sans.variable} antialiased`}
       >
+        <div className="mb-24">
+          <Navbar />
+        </div>
         {children}
       </body>
     </html>
