@@ -21,7 +21,7 @@ function Hero() {
       <div className="relative z-10 text-white w-full pt-20 text-center">
         {/* content */}
         <div className="space-y-5 pb-20 px-5 md:px-0">
-          <h1 className="text-3xl md:text-4xl font-bold josefin text-white">
+          <h1 className="text-3xl md:text-4xl xl:text-5xl font-bold josefin text-white">
             Connecting <span className="text-primary">Minds</span>, Inspiring{" "}
             <span className="text-primary">Growth</span>
           </h1>
