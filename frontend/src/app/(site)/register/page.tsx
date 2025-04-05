@@ -3,7 +3,7 @@
 import Input from "@/components/Shared/Input";
 import Link from "next/link";
 
-function Login() {
+function Register() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
   };
@@ -23,12 +23,30 @@ function Login() {
         <form className="mt-5 space-y-3">
           <Input
             value={undefined}
+            title="Name"
+            placeholder="Enter Name"
+            onChange={handleChange}
+            required
+            type="text"
+            name="name"
+          />
+          <Input
+            value={undefined}
             title="Email"
             placeholder="Enter Email"
             onChange={handleChange}
             required
             type="email"
             name="email"
+          />
+          <Input
+            value={undefined}
+            title="Number"
+            placeholder="Enter Number"
+            onChange={handleChange}
+            required
+            type="number"
+            name="number"
           />
           <Input
             value={undefined}
@@ -43,18 +61,18 @@ function Login() {
           <div>
             <input
               type="submit"
-              value="Login Now"
+              value="Register Now"
               className="w-full py-2 bg-primary text-white font-semibold text-lg rounded"
             />
           </div>
         </form>
         <p className="mt-3 text-center font-medium text-text">
-          Don&apos;t have an account?{" "}
+          Already have an account?{" "}
           <Link
-            href="/register"
+            href="/login"
             className="text-secondary hover:border-b border-secondary duration-300"
           >
-            Register Now
+            Login Now
           </Link>
         </p>
       </div>
@@ -62,4 +80,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

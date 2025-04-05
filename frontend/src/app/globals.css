@@ -14,3 +14,10 @@ body {
 .josefin {
   font-family: var(--font-josefin-sans), sans-serif;
 }
+
+/* Remove default spin buttons in Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
