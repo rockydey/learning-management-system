@@ -6,7 +6,9 @@
   "scripts": {
     "start:prod": "node ./dist/server.js",
     "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "npx eslint src --fix"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -15,8 +17,16 @@
     "mongoose": "^8.13.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.24.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
-    "typescript": "^5.8.3"
+    "@typescript-eslint/eslint-plugin": "^8.29.0",
+    "@typescript-eslint/parser": "^8.29.0",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.1",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.0"
   }
 }
