@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { model, Schema } from 'mongoose';
-import { TRegisterUser } from '../types/auth.type';
+import { TRegisterUser, UserModel } from '../types/auth.type';
 import bcrypt from 'bcrypt';
 import config from '../config';
 
-const registerUserSchema = new Schema<TRegisterUser>(
+const registerUserSchema = new Schema<TRegisterUser, UserModel>(
   {
     name: {
       type: String,
@@ -69,4 +69,15 @@ registerUserSchema.post('save', function (doc, next) {
   next();
 });
 
-export const User = model<TRegisterUser>('User', registerUserSchema);
+registerUserSchema.statics.isUserExists = async function (email: string) {
+  return await User.findOne({ email }).select('+password');
+};
+
+registerUserSchema.statics.isPasswordMatched = async function (
+  plainTextPassword: string,
+  hashedPassword: string,
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
+};
+
+export const User = model<TRegisterUser, UserModel>('User', registerUserSchema);
