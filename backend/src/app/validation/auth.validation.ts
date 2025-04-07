@@ -10,6 +10,7 @@ const registerUserValidationSchema = z.object({
       .min(8, { message: 'Password should be minimum 8 characters!' }),
     role: z.enum(['user', 'admin']).default('user').optional(),
     status: z.enum(['active', 'blocked']).default('active').optional(),
+    profileImg: z.string().optional(),
   }),
 });
 

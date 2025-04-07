@@ -43,6 +43,10 @@ const registerUserSchema = new Schema<TRegisterUser>(
       type: Boolean,
       default: false,
     },
+    profileImg: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

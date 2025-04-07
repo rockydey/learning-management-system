@@ -6,6 +6,7 @@ export type TRegisterUser = {
   role: 'user' | 'admin';
   status: 'active' | 'blocked';
   isDeleted: boolean;
+  profileImg?: string;
 };
 
 export type TLoginUser = {
