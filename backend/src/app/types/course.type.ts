@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 export type TCourse = {
-  thumbnail: string;
+  thumbnail?: string;
   title: string;
   price: number;
   description: string;
