@@ -7,6 +7,8 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import { MdHighlightOff } from "react-icons/md";
 import { useAuth } from "@/context/AuthContext";
+import Loader from "../Loader/Loader";
+import { FaUser } from "react-icons/fa";
 
 const menus = [
   {
@@ -31,15 +33,18 @@ function Navbar() {
   const pathname = usePathname();
   const [toggle, setToggle] = useState(false);
   const { user, loading, logout } = useAuth();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  console.log(user);
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen((prevState) => !prevState);
+  };
 
   useEffect(() => {
     setToggle(false);
   }, [pathname]);
 
   if (loading) {
-    return <div>Loading...!</div>;
+    return <Loader />;
   }
 
   return (
@@ -71,7 +76,7 @@ function Navbar() {
             </Link>
           ))}
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:block relative">
           {!user ? (
             <Link
               href="/login"
@@ -80,18 +85,104 @@ function Navbar() {
               Login
             </Link>
           ) : (
-            <button onClick={() => logout()}>Logout</button>
+            <button
+              className="w-10 h-10 flex items-center cursor-pointer"
+              onClick={handleDropdownToggle}
+            >
+              {!user?.profileImg ? (
+                <FaUser className="bg-secondary text-white w-full h-full rounded-full p-2" />
+              ) : (
+                <Image
+                  src={user.profileImg}
+                  alt="Profile"
+                  className="object-cover w-full h-full rounded-full"
+                  width={40}
+                  height={40}
+                />
+              )}
+            </button>
+          )}
+
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 font-medium">
+              <div className="p-3">
+                <div className="font-semibold">{user?.name}</div>
+                <div className="text-sm text-gray-500">{user?.email}</div>
+              </div>
+              <div className="border-t border-gray-200">
+                <Link
+                  href="user/dashboard"
+                  className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                >
+                  My Classes
+                </Link>
+                <button
+                  onClick={() => {
+                    logout();
+                  }}
+                  className="block w-full px-4 py-2 text-base text-red-500 hover:bg-gray-100 text-left"
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
           )}
         </div>
 
         {/* Mobile Menu */}
         <div className="md:hidden flex items-center gap-2">
-          <Link
-            href="/login"
-            className="text-base font-semibold text-secondary border-2 px-3.5 py-1.5 rounded-full border-secondary"
-          >
-            Login
-          </Link>
+          <div className="relative">
+            {!user ? (
+              <Link
+                href="/login"
+                className="text-base font-semibold text-secondary border-2 px-3.5 py-1.5 rounded-full border-secondary"
+              >
+                Login
+              </Link>
+            ) : (
+              <button
+                className="w-8 h-8 flex items-center cursor-pointer"
+                onClick={handleDropdownToggle}
+              >
+                {!user?.profileImg ? (
+                  <FaUser className="bg-secondary text-white w-full h-full rounded-full p-2" />
+                ) : (
+                  <Image
+                    src={user.profileImg}
+                    alt="Profile"
+                    className="object-cover w-full h-full rounded-full"
+                    width={32}
+                    height={32}
+                  />
+                )}
+              </button>
+            )}
+
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200 font-medium">
+                <div className="p-3">
+                  <div className="font-semibold">{user?.name}</div>
+                  <div className="text-sm text-gray-500">{user?.email}</div>
+                </div>
+                <div className="border-t border-gray-200">
+                  <Link
+                    href="user/dashboard"
+                    className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                  >
+                    My Classes
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                    }}
+                    className="block w-full px-4 py-2 text-base text-red-500 hover:bg-gray-100 text-left"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
           <button
             onClick={() => setToggle(!toggle)}
             className="text-secondary cursor-pointer"
