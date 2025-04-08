@@ -1,12 +1,7 @@
-import style from "./Loader.module.css";
-
-// Loader component
-const Loader = () => {
+export const Loader = () => {
   return (
     <div className="flex items-center w-full bg-bgColor absolute top-0 justify-center h-screen">
-      <span className={style?.crossLoader}></span>
+      <p>Loading</p>
     </div>
   );
 };
-
-export default Loader;

@@ -7,8 +7,9 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import { MdHighlightOff } from "react-icons/md";
 import { useAuth } from "@/context/AuthContext";
-import Loader from "../Loader/Loader";
 import { FaUser } from "react-icons/fa";
+import { Loader } from "../Loader/Loader";
+// import Loader from "../Loader/Loader";
 
 const menus = [
   {
@@ -128,6 +129,7 @@ function Navbar() {
                 <button
                   onClick={() => {
                     logout();
+                    setIsDropdownOpen(false);
                   }}
                   className="block w-full px-4 py-2 text-base text-red-500 hover:bg-gray-100 text-left"
                 >
@@ -192,6 +194,7 @@ function Navbar() {
                   <button
                     onClick={() => {
                       logout();
+                      setIsDropdownOpen(false);
                     }}
                     className="block w-full px-4 py-2 text-base text-red-500 hover:bg-gray-100 text-left"
                   >
