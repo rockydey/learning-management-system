@@ -19,6 +19,12 @@ const createCourseIntoDB = async (file: any, payload: TCourse) => {
   return result;
 };
 
+const getAllCoursesFromDB = async () => {
+  const courses = await Course.find().populate('modules');
+  return courses;
+};
+
 export const CourseServices = {
   createCourseIntoDB,
+  getAllCoursesFromDB,
 };
