@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { TCourse } from '../types/course.type';
+import { CourseModel, TCourse } from '../types/course.type';
 
-const courseSchema = new Schema<TCourse>(
+const courseSchema = new Schema<TCourse, CourseModel>(
   {
     thumbnail: {
       type: String,
@@ -33,4 +33,8 @@ const courseSchema = new Schema<TCourse>(
   },
 );
 
-export const Course = model<TCourse>('Course', courseSchema);
+courseSchema.statics.isCourseExists = async function (courseId: string) {
+  return await Course.findById(courseId);
+};
+
+export const Course = model<TCourse, CourseModel>('Course', courseSchema);

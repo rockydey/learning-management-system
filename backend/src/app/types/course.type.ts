@@ -1,4 +1,5 @@
-import { Types } from 'mongoose';
+/* eslint-disable no-unused-vars */
+import { Model, Types } from 'mongoose';
 
 export type TCourse = {
   thumbnail?: string;
@@ -7,3 +8,7 @@ export type TCourse = {
   description: string;
   modules: Types.ObjectId[];
 };
+
+export interface CourseModel extends Model<TCourse> {
+  isCourseExists(courseId: string): Promise<TCourse>;
+}
