@@ -31,16 +31,3 @@ export const useRegisterMutation = () => {
     },
   });
 };
-
-export const useGetUser = () =>
-  useMutation({
-    mutationFn: async (accessToken: string) => {
-      const res = await axiosInstance.get("/auth/me", {
-        headers: {
-          Authorization: accessToken,
-        },
-      });
-
-      return res.data.data;
-    },
-  });

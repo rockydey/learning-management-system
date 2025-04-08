@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useGetUser } from "@/hooks/useAuthMutation";
+import { useGetUser } from "@/hooks/useGetUser";
 
 interface User {
   _id: string;
@@ -30,31 +29,24 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { mutateAsync: getUser } = useGetUser();
 
-  // Fetch user data using the token
-  const fetchUser = async (accessToken: string) => {
-    try {
+  const { data: user, isLoading, refetch } = useGetUser(token!);
+
+  useEffect(() => {
+    if (isLoading) {
       setLoading(true);
-      const userData = await getUser(accessToken);
-      setUser(userData);
-    } catch (err: any) {
-      console.error("Failed to fetch user", err);
-      logout();
-    } finally {
+    } else {
       setLoading(false);
     }
-  };
+  }, [isLoading]);
 
   // Effect to check token in localStorage on mount
   useEffect(() => {
     const storedToken = localStorage.getItem("accessToken");
     if (storedToken) {
       setToken(storedToken);
-      fetchUser(storedToken);
     }
   }, []);
 
@@ -62,7 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const loginUser = async (accessToken: string) => {
     localStorage.setItem("accessToken", accessToken);
     setToken(accessToken);
-    await fetchUser(accessToken);
+    refetch();
     router.push("/");
   };
 
@@ -70,7 +62,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     localStorage.removeItem("accessToken");
     setToken(null);
-    setUser(null);
     router.push("/login");
   };
 
@@ -81,6 +72,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+// Custom hook to use the authentication context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) throw new Error("useAuth must be used inside AuthProvider");
