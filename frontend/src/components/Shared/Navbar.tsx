@@ -110,12 +110,21 @@ function Navbar() {
                 <div className="text-sm text-gray-500">{user?.email}</div>
               </div>
               <div className="border-t border-gray-200">
-                <Link
-                  href="user/dashboard"
-                  className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
-                >
-                  My Classes
-                </Link>
+                {user?.role === "user" ? (
+                  <Link
+                    href={`user/dashboard`}
+                    className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                  >
+                    My Classes
+                  </Link>
+                ) : (
+                  <Link
+                    href={`admin/dashboard`}
+                    className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                  >
+                    Dashboard
+                  </Link>
+                )}
                 <button
                   onClick={() => {
                     logout();
@@ -165,12 +174,21 @@ function Navbar() {
                   <div className="text-sm text-gray-500">{user?.email}</div>
                 </div>
                 <div className="border-t border-gray-200">
-                  <Link
-                    href="user/dashboard"
-                    className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
-                  >
-                    My Classes
-                  </Link>
+                  {user?.role === "user" ? (
+                    <Link
+                      href={`user/dashboard`}
+                      className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                    >
+                      My Classes
+                    </Link>
+                  ) : (
+                    <Link
+                      href={`admin/dashboard`}
+                      className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                    >
+                      Dashboard
+                    </Link>
+                  )}
                   <button
                     onClick={() => {
                       logout();
