@@ -2,7 +2,7 @@ import config from '../config';
 import AppError from '../errors/AppError';
 import { User } from '../models/auth.model';
 import { TLoginUser, TRegisterUser } from '../types/auth.type';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const registerUserIntoDB = async (payload: TRegisterUser) => {
   const result = await User.create(payload);
@@ -45,7 +45,16 @@ const loginUser = async (payload: TLoginUser) => {
   };
 };
 
+const getMeFromDB = async (payload: JwtPayload) => {
+  const { role, email } = payload;
+
+  const result = await User.findOne({ role, email });
+
+  return result;
+};
+
 export const AuthServices = {
   registerUserIntoDB,
   loginUser,
+  getMeFromDB,
 };
