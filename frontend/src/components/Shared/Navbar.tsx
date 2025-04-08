@@ -6,6 +6,7 @@ import Image from "next/image";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import { MdHighlightOff } from "react-icons/md";
+import { useAuth } from "@/context/AuthContext";
 
 const menus = [
   {
@@ -29,10 +30,17 @@ const menus = [
 function Navbar() {
   const pathname = usePathname();
   const [toggle, setToggle] = useState(false);
+  const { user, loading, logout } = useAuth();
+
+  console.log(user);
 
   useEffect(() => {
     setToggle(false);
   }, [pathname]);
+
+  if (loading) {
+    return <div>Loading...!</div>;
+  }
 
   return (
     <nav className="bg-primary py-5 shadow-lg fixed top-0 w-full z-40">
@@ -64,12 +72,16 @@ function Navbar() {
           ))}
         </div>
         <div className="hidden md:block">
-          <Link
-            href="/login"
-            className="text-base lg:text-lg font-semibold text-secondary border-2 px-3.5 lg:px-4 py-1.5 lg:py-2 rounded-full border-secondary"
-          >
-            Login
-          </Link>
+          {!user ? (
+            <Link
+              href="/login"
+              className="text-base lg:text-lg font-semibold text-secondary border-2 px-3.5 lg:px-4 py-1.5 lg:py-2 rounded-full border-secondary"
+            >
+              Login
+            </Link>
+          ) : (
+            <button onClick={() => logout()}>Logout</button>
+          )}
         </div>
 
         {/* Mobile Menu */}

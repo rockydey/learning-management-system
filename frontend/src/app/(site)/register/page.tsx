@@ -31,7 +31,6 @@ function Register() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, value } = event.target;
 
-    // If the input type is number, convert it to string before setting
     const updatedValue = type === "number" ? String(value) : value;
 
     setFormData((prev) => ({
@@ -50,8 +49,7 @@ function Register() {
       },
       onError: (error: any) => {
         const errorMessage =
-          error?.response?.data?.errorSources[0]?.message ||
-          "Registration failed!";
+          error?.response?.data?.message || "Registration failed!";
         toast.error(errorMessage);
       },
     });
@@ -111,7 +109,7 @@ function Register() {
             <input
               type="submit"
               value={isPending ? "Registering..." : "Register Now"}
-              className="w-full py-2 bg-primary text-white font-semibold text-lg rounded cursor-pointer"
+              className="w-full py-2 bg-primary text-white font-semibold text-lg rounded cursor-pointer disabled:cursor-not-allowed"
               disabled={isPending}
             />
           </div>

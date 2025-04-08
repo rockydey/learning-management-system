@@ -1,11 +1,54 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Input from "@/components/Shared/Input";
+import { useAuth } from "@/context/AuthContext";
+import { useLoginMutation } from "@/hooks/useAuthMutation";
 import Link from "next/link";
+import { useState } from "react";
+import toast from "react-hot-toast";
+
+interface FormDataProps {
+  email: string;
+  password: string;
+}
 
 function Login() {
+  const [formData, setFormData] = useState<FormDataProps>({
+    email: "",
+    password: "",
+  });
+  const { mutate: login, isPending } = useLoginMutation();
+  const { loginUser } = useAuth();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const email = formData.email;
+    const password = formData.password;
+
+    login(
+      { email, password },
+      {
+        onSuccess: (token) => {
+          loginUser(token.accessToken);
+          toast.success("Login Successful!");
+        },
+        onError: (error: any) => {
+          const errorMessage =
+            error?.response?.data?.message || "Login failed!";
+          toast.error(errorMessage);
+        },
+      }
+    );
   };
 
   return (
@@ -20,9 +63,9 @@ function Login() {
           </h3>
         </div>
 
-        <form className="mt-5 space-y-3">
+        <form onSubmit={handleSubmit} className="mt-5 space-y-3">
           <Input
-            value={undefined}
+            value={formData.email}
             title="Email"
             placeholder="Enter Email"
             onChange={handleChange}
@@ -31,7 +74,7 @@ function Login() {
             name="email"
           />
           <Input
-            value={undefined}
+            value={formData.password}
             title="Password"
             placeholder="Enter Password"
             onChange={handleChange}
@@ -43,8 +86,9 @@ function Login() {
           <div>
             <input
               type="submit"
-              value="Login Now"
-              className="w-full py-2 bg-primary text-white font-semibold text-lg rounded"
+              value={isPending ? "Logging..." : "Login Now"}
+              className="w-full py-2 bg-primary text-white font-semibold text-lg rounded cursor-pointer disabled:cursor-not-allowed"
+              disabled={isPending}
             />
           </div>
         </form>
