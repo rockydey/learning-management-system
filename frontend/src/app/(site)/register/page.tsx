@@ -1,11 +1,60 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Input from "@/components/Shared/Input";
+import { useRegisterMutation } from "@/hooks/useAuthMutation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
+
+interface FormDataProps {
+  name: string;
+  email: string;
+  number: string;
+  password: string;
+}
+
+const initialProps = {
+  name: "",
+  email: "",
+  number: "",
+  password: "",
+};
 
 function Register() {
+  const [formData, setFormData] = useState<FormDataProps>(initialProps);
+  const { mutate, isPending } = useRegisterMutation();
+  const router = useRouter();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+    const { name, type, value } = event.target;
+
+    // If the input type is number, convert it to string before setting
+    const updatedValue = type === "number" ? String(value) : value;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: updatedValue,
+    }));
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    mutate(formData, {
+      onSuccess: (data: any) => {
+        toast.success(data?.message);
+        router.push("/");
+      },
+      onError: (error: any) => {
+        const errorMessage =
+          error?.response?.data?.errorSources[0]?.message ||
+          "Registration failed!";
+        toast.error(errorMessage);
+      },
+    });
   };
 
   return (
@@ -16,13 +65,13 @@ function Register() {
             Welcome to <span className="text-primary">Academix</span>
           </h2>
           <h3 className="text-xl md:text-2xl text-heading font-bold">
-            Login Here
+            Register Here
           </h3>
         </div>
 
-        <form className="mt-5 space-y-3">
+        <form onSubmit={handleSubmit} className="mt-5 space-y-3">
           <Input
-            value={undefined}
+            value={formData.name}
             title="Name"
             placeholder="Enter Name"
             onChange={handleChange}
@@ -31,7 +80,7 @@ function Register() {
             name="name"
           />
           <Input
-            value={undefined}
+            value={formData.email}
             title="Email"
             placeholder="Enter Email"
             onChange={handleChange}
@@ -40,7 +89,7 @@ function Register() {
             name="email"
           />
           <Input
-            value={undefined}
+            value={formData.number}
             title="Number"
             placeholder="Enter Number"
             onChange={handleChange}
@@ -49,7 +98,7 @@ function Register() {
             name="number"
           />
           <Input
-            value={undefined}
+            value={formData.password}
             title="Password"
             placeholder="Enter Password"
             onChange={handleChange}
@@ -61,8 +110,9 @@ function Register() {
           <div>
             <input
               type="submit"
-              value="Register Now"
-              className="w-full py-2 bg-primary text-white font-semibold text-lg rounded"
+              value={isPending ? "Registering..." : "Register Now"}
+              className="w-full py-2 bg-primary text-white font-semibold text-lg rounded cursor-pointer"
+              disabled={isPending}
             />
           </div>
         </form>
