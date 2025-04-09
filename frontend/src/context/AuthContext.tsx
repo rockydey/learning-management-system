@@ -5,6 +5,34 @@ import { useRouter } from "next/navigation";
 import { useGetUser } from "@/hooks/useGetUser";
 import toast from "react-hot-toast";
 
+interface Lecture {
+  _id: string;
+  title: string;
+  videoURL: string;
+  pdfLinks: string[];
+  locked: boolean;
+}
+
+interface Module {
+  _id: string;
+  title: string;
+  course: string;
+  moduleNumber: number;
+  lectures: Lecture[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+interface Course {
+  _id: string;
+  thumbnail: string;
+  title: string;
+  description: string;
+  price: string;
+  modules: Module[];
+}
+
 interface User {
   _id: string;
   name: string;
@@ -16,6 +44,7 @@ interface User {
   createdAt: string;
   updatedAt: string;
   profileImg?: string;
+  purchaseCourse: Course[];
 }
 
 interface AuthContextType {

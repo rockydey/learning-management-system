@@ -59,3 +59,26 @@ export const useCreateCourse = () => {
     },
   });
 };
+
+export const usePurchaseCourse = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, token }: { id: string; token: string }) => {
+      const res = await axiosInstance.post(
+        `/course/purchase/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      return res.data.data;
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["courses"] });
+    },
+  });
+};

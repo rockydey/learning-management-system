@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { MdHighlightOff } from "react-icons/md";
 import { useAuth } from "@/context/AuthContext";
 import { FaUser } from "react-icons/fa";
+import { isLoggedIn } from "@/lib/isLogging";
 
 const menus = [
   {
@@ -31,6 +32,7 @@ const menus = [
 function Navbar() {
   const pathname = usePathname();
   const [toggle, setToggle] = useState(false);
+  const isUser = isLoggedIn();
   const { user, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -72,7 +74,7 @@ function Navbar() {
           ))}
         </div>
         <div className="hidden md:block relative">
-          {!user ? (
+          {!isUser ? (
             <Link
               href="/login"
               className="text-base lg:text-lg font-semibold text-secondary border-2 px-3.5 lg:px-4 py-1.5 lg:py-2 rounded-full border-secondary"
@@ -107,14 +109,14 @@ function Navbar() {
               <div className="border-t border-gray-200">
                 {user?.role === "user" ? (
                   <Link
-                    href={`user/dashboard`}
+                    href={`/user/dashboard`}
                     className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
                   >
                     My Classes
                   </Link>
                 ) : (
                   <Link
-                    href={`admin/dashboard`}
+                    href={`/admin/dashboard`}
                     className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
                   >
                     Dashboard
@@ -125,7 +127,7 @@ function Navbar() {
                     logout();
                     setIsDropdownOpen(false);
                   }}
-                  className="block w-full px-4 py-2 text-base text-red-500 hover:bg-gray-100 text-left"
+                  className="block w-full px-4 py-2 text-base text-red-500 hover:bg-gray-100 text-left cursor-pointer"
                 >
                   Logout
                 </button>
@@ -137,7 +139,7 @@ function Navbar() {
         {/* Mobile Menu */}
         <div className="md:hidden flex items-center gap-2">
           <div className="relative">
-            {!user ? (
+            {!isUser ? (
               <Link
                 href="/login"
                 className="text-base font-semibold text-secondary border-2 px-3.5 py-1.5 rounded-full border-secondary"
@@ -172,14 +174,14 @@ function Navbar() {
                 <div className="border-t border-gray-200">
                   {user?.role === "user" ? (
                     <Link
-                      href={`user/dashboard`}
+                      href={`/user/dashboard`}
                       className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
                     >
                       My Classes
                     </Link>
                   ) : (
                     <Link
-                      href={`admin/dashboard`}
+                      href={`/admin/dashboard`}
                       className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
                     >
                       Dashboard
@@ -190,7 +192,7 @@ function Navbar() {
                       logout();
                       setIsDropdownOpen(false);
                     }}
-                    className="block w-full px-4 py-2 text-base text-red-500 hover:bg-gray-100 text-left"
+                    className="block w-full px-4 py-2 text-base text-red-500 hover:bg-gray-100 text-left cursor-pointer"
                   >
                     Logout
                   </button>

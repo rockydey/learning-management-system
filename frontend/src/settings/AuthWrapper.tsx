@@ -1,16 +1,30 @@
 "use client";
+
+import { Loader } from "@/components/Loader/Loader";
+import { isLoggedIn } from "@/lib/isLogging";
 import { useRouter } from "next/navigation";
-import { ReactNode, useEffect } from "react";
-import { isLoggedIn } from "../lib/isLogging";
+import { ReactNode, useEffect, useState } from "react";
 
 export default function AuthWrapper({ children }: { children: ReactNode }) {
-  const isUser = isLoggedIn();
   const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // null = loading
 
   useEffect(() => {
-    if (!isUser) {
-      router.push("/login");
-    }
-  }, [isUser, router]);
-  return <div>{children}</div>;
+    const checkAuth = () => {
+      const isUser = isLoggedIn();
+      if (!isUser) {
+        router.push("/login");
+      } else {
+        setIsAuthenticated(true);
+      }
+    };
+
+    checkAuth();
+  }, [router]);
+
+  if (isAuthenticated === null) {
+    return <Loader />;
+  }
+
+  return <>{children}</>;
 }

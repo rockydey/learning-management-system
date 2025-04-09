@@ -1,20 +1,69 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Loader } from "@/components/Loader/Loader";
-import { useGetSingleCourse } from "@/hooks/useCourseMutation";
-import { useParams } from "next/navigation";
+import {
+  useGetSingleCourse,
+  usePurchaseCourse,
+} from "@/hooks/useCourseMutation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
+import { getToken } from "@/hooks/useToken";
+import { isLoggedIn } from "@/lib/isLogging";
+import toast from "react-hot-toast";
+import { useGetUser } from "@/hooks/useGetUser";
 
 function CourseDetailsPage() {
+  const token = getToken();
+  const isUser = isLoggedIn();
   const { id } = useParams();
   const { data: course, isLoading } = useGetSingleCourse(id as string);
+  const router = useRouter();
+  const {
+    data: user,
+    isLoading: userLoading,
+    refetch,
+  } = useGetUser(token as string);
 
-  if (isLoading) return <Loader />;
-  if (!course)
-    return (
-      <div className="text-center py-20 text-red-500">Course not found</div>
+  const { mutate: purchaseCourse, isPending } = usePurchaseCourse();
+
+  console.log(user);
+
+  // Check if the course is already purchased by the user
+  const isCoursePurchased = user?.purchaseCourse?.some(
+    (course: any) => course?._id === id
+  );
+  console.log(isCoursePurchased);
+
+  const handleEnroll = () => {
+    if (!isUser) {
+      router.push("/login");
+      return;
+    }
+
+    if (!token || !id || Array.isArray(id)) {
+      toast.error("Authentication token or course ID is missing.");
+      return;
+    }
+
+    purchaseCourse(
+      { id, token },
+      {
+        onSuccess: () => {
+          toast.success("Course enrolled successfully!");
+          refetch();
+        },
+        onError: (error: any) => {
+          const errorMessage =
+            error?.response?.data?.message || "Login failed!";
+          toast.error(errorMessage);
+        },
+      }
     );
+  };
+
+  if (isLoading || userLoading) return <Loader />;
 
   return (
     <div className="bg-white text-text">
@@ -44,8 +93,16 @@ function CourseDetailsPage() {
                 ₹{Number(course.price) + 500}
               </span>
             </div>
-            <button className="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary/90 transition w-full sm:w-auto cursor-pointer">
-              Enroll Now
+            <button
+              onClick={handleEnroll}
+              disabled={isPending || isCoursePurchased}
+              className="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary/90 transition w-full sm:w-auto cursor-pointer disabled:cursor-not-allowed disabled:bg-text/25 disabled:text-text"
+            >
+              {isPending
+                ? "Enrolling"
+                : isCoursePurchased
+                ? "Already Enrolled"
+                : "Enroll Now"}
             </button>
             <p className="text-sm text-gray-500">
               🔒 Secure checkout • Lifetime access • Certificate included

@@ -47,14 +47,21 @@ const CourseCard: React.FC<ICourseCardProps> = ({ course }) => {
           {pathname === "/courses" ? (
             <Link
               href={`courses/${course?._id}`}
-              className="px-4 py-1.5 bg-secondary text-white text-sm font-medium rounded-md hover:bg-secondary/90 transition cursor-pointer"
+              className="px-4 py-1.5 bg-secondary text-white text-base rounded-md hover:bg-secondary/90 transition cursor-pointer font-semibold"
             >
               View Details
+            </Link>
+          ) : pathname === "/user/dashboard" ? (
+            <Link
+              href={`/class/${course?._id}`}
+              className="px-4 py-1.5 bg-secondary text-white text-base rounded-md hover:bg-secondary/90 transition cursor-pointer font-semibold"
+            >
+              See Class
             </Link>
           ) : (
             <Link
               href={`/admin/manage-module/${course?._id}`}
-              className="px-4 py-1.5 bg-secondary text-white text-sm font-medium rounded-md hover:bg-secondary/90 transition cursor-pointer"
+              className="px-4 py-1.5 bg-secondary text-white text-base rounded-md hover:bg-secondary/90 transition cursor-pointer font-semibold"
             >
               Manage Modules
             </Link>
