@@ -26,6 +26,21 @@ export const useGetCourse = (accessToken: string) =>
     enabled: !!accessToken,
   });
 
+export const useGetSingleCourse = (id: string, accessToken: string) =>
+  useQuery({
+    queryKey: ["course", id],
+    queryFn: async () => {
+      const res = await axiosInstance.get(`/course/${id}`, {
+        headers: {
+          Authorization: accessToken,
+        },
+      });
+
+      return res.data.data;
+    },
+    enabled: !!id && !!accessToken,
+  });
+
 export const useCreateCourse = () => {
   const queryClient = useQueryClient();
 

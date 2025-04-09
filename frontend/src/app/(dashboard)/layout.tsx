@@ -7,7 +7,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="col-span-2">
         <Sidebar />
       </div>
-      <div className="col-span-10">
+      <div className="col-span-10 h-[calc(100vh-40px)] overflow-y-auto">
         <AuthWrapper>{children}</AuthWrapper>
       </div>
     </section>

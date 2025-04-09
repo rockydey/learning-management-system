@@ -23,8 +23,8 @@ const CourseCard: React.FC<ICourseCardProps> = ({ course }) => {
         <Image
           src={course.thumbnail}
           alt={course.title}
+          className="object-cover w-full h-full"
           fill
-          className="object-cover"
           priority
         />
       </div>
@@ -42,10 +42,10 @@ const CourseCard: React.FC<ICourseCardProps> = ({ course }) => {
             ${Number(course.price).toFixed(2)}
           </span>
           <Link
-            href={`/add-modules/${course?._id}`}
+            href={`/admin/manage-module/${course?._id}`}
             className="px-4 py-1.5 bg-secondary text-white text-sm font-medium rounded-md hover:bg-secondary/90 transition cursor-pointer"
           >
-            Add Modules
+            Manage Modules
           </Link>
         </div>
       </div>

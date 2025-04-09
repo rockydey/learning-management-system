@@ -67,7 +67,7 @@ function AdminDashboard() {
         },
         onError: (error: any) => {
           const errorMessage =
-            error?.response?.data?.message || "Login failed!";
+            error?.response?.data?.message || "Course creation failed!";
           toast.error(errorMessage);
         },
       }
