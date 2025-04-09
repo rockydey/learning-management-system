@@ -8,8 +8,6 @@ import { useEffect, useState } from "react";
 import { MdHighlightOff } from "react-icons/md";
 import { useAuth } from "@/context/AuthContext";
 import { FaUser } from "react-icons/fa";
-import { Loader } from "../Loader/Loader";
-// import Loader from "../Loader/Loader";
 
 const menus = [
   {
@@ -33,7 +31,7 @@ const menus = [
 function Navbar() {
   const pathname = usePathname();
   const [toggle, setToggle] = useState(false);
-  const { user, loading, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDropdownToggle = () => {
@@ -43,10 +41,6 @@ function Navbar() {
   useEffect(() => {
     setToggle(false);
   }, [pathname]);
-
-  if (loading) {
-    return <Loader />;
-  }
 
   return (
     <nav className="bg-primary py-5 shadow-lg fixed top-0 w-full z-40">

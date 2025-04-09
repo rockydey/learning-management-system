@@ -90,139 +90,138 @@ function AddModule() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
-      <div className="flex items-center justify-between mb-2">
-        <Link
-          href={`/admin/manage-module/${id}`}
-          className="flex items-center gap-1.5 text-base font-semibold"
-        >
-          <FaChevronLeft /> Back
-        </Link>
-        <h1 className="text-3xl font-bold text-heading">Create Module</h1>
-        <div></div>
-      </div>
-
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-8 bg-white p-6 shadow-xl rounded-2xl border border-gray-100"
+    <div className="max-w-4xl mx-auto xl:px-5 py-5">
+      <Link
+        href={`/admin/manage-module/${id}`}
+        className="flex items-center gap-1.5 text-base font-semibold"
       >
-        <div>
-          <label
-            className="block text-sm font-semibold mb-1"
-            style={{ color: "var(--color-heading)" }}
-          >
-            Module Title
-          </label>
-          <input
-            type="text"
-            value={title}
-            required
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none "
-            placeholder="e.g., Getting Started with Backend APIs"
-          />
-        </div>
+        <FaChevronLeft /> Back
+      </Link>
 
-        <div>
-          <h2
-            className="text-xl font-semibold mb-2"
-            style={{ color: "var(--color-heading)" }}
-          >
-            Lectures
-          </h2>
+      <div className="bg-white p-6 shadow-xl rounded-2xl border border-gray-100 mt-2">
+        <h1 className="text-3xl font-bold text-heading text-center mb-3">
+          Create Module
+        </h1>
 
-          {lectures.map((lecture, index) => (
-            <div
-              key={index}
-              className="p-4 bg-gray-50 border rounded-xl mb-4 space-y-4 relative"
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div>
+            <label
+              className="block text-sm font-semibold mb-1"
+              style={{ color: "var(--color-heading)" }}
             >
-              <p className="bg-secondary text-white w-6 h-6 rounded-full flex items-center justify-center absolute top-1 right-1">
-                {index + 1}
-              </p>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Lecture Title
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={lecture.title}
-                  onChange={(e) =>
-                    handleLectureChange(index, "title", e.target.value)
-                  }
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none "
-                />
-              </div>
+              Module Title
+            </label>
+            <input
+              type="text"
+              value={title}
+              required
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none "
+              placeholder="e.g., Getting Started with Backend APIs"
+            />
+          </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Video URL
-                </label>
-                <input
-                  type="text"
-                  value={lecture.videoURL}
-                  required
-                  onChange={(e) =>
-                    handleLectureChange(index, "videoURL", e.target.value)
-                  }
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none "
-                />
-              </div>
+          <div>
+            <h2
+              className="text-xl font-semibold mb-2"
+              style={{ color: "var(--color-heading)" }}
+            >
+              Lectures
+            </h2>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  PDF Links
-                </label>
-                {lecture.pdfLinks.map((pdf, pdfIndex) => (
+            {lectures.map((lecture, index) => (
+              <div
+                key={index}
+                className="p-4 bg-gray-50 border rounded-xl mb-4 space-y-4 relative"
+              >
+                <p className="bg-secondary text-white w-6 h-6 rounded-full flex items-center justify-center absolute top-1 right-1">
+                  {index + 1}
+                </p>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Lecture Title
+                  </label>
                   <input
-                    key={pdfIndex}
                     type="text"
-                    value={pdf}
+                    required
+                    value={lecture.title}
                     onChange={(e) =>
-                      handlePDFChange(index, pdfIndex, e.target.value)
+                      handleLectureChange(index, "title", e.target.value)
                     }
-                    className="w-full mb-2 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none "
-                    placeholder="https://example.com/pdf"
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none "
                   />
-                ))}
-                <button
-                  type="button"
-                  className="text-sm text-primary hover:underline cursor-pointer"
-                  onClick={() => addPDFLink(index)}
-                >
-                  + Add PDF Link
-                </button>
-              </div>
+                </div>
 
-              <div className="text-right">
-                <button
-                  type="button"
-                  className="text-sm text-red-600 hover:underline cursor-pointer"
-                  onClick={() => removeLecture(index)}
-                >
-                  Remove Lecture
-                </button>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Video URL
+                  </label>
+                  <input
+                    type="text"
+                    value={lecture.videoURL}
+                    required
+                    onChange={(e) =>
+                      handleLectureChange(index, "videoURL", e.target.value)
+                    }
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none "
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    PDF Links
+                  </label>
+                  {lecture.pdfLinks.map((pdf, pdfIndex) => (
+                    <input
+                      key={pdfIndex}
+                      type="text"
+                      value={pdf}
+                      onChange={(e) =>
+                        handlePDFChange(index, pdfIndex, e.target.value)
+                      }
+                      className="w-full mb-2 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none "
+                      placeholder="https://example.com/pdf"
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    className="text-sm text-primary hover:underline cursor-pointer"
+                    onClick={() => addPDFLink(index)}
+                  >
+                    + Add PDF Link
+                  </button>
+                </div>
+
+                <div className="text-right">
+                  <button
+                    type="button"
+                    className="text-sm text-red-600 hover:underline cursor-pointer"
+                    onClick={() => removeLecture(index)}
+                  >
+                    Remove Lecture
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+
+            <button
+              type="button"
+              className="bg-primary cursor-pointer text-white px-3 py-1.5 rounded-md hover:opacity-90 transition"
+              onClick={addLecture}
+            >
+              + Add Lecture
+            </button>
+          </div>
 
           <button
-            type="button"
-            className="bg-primary cursor-pointer text-white px-3 py-1.5 rounded-md hover:opacity-90 transition"
-            onClick={addLecture}
+            type="submit"
+            disabled={isPending}
+            className="bg-secondary cursor-pointer text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary/90 transition"
           >
-            + Add Lecture
+            {isPending ? "Adding..." : "Add Module"}
           </button>
-        </div>
-
-        <button
-          type="submit"
-          disabled={isPending}
-          className="bg-secondary cursor-pointer text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary/90 transition"
-        >
-          {isPending ? "Adding..." : "Add Module"}
-        </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

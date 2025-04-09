@@ -31,15 +31,15 @@ function ManageModule() {
   };
 
   return (
-    <div className="p-5">
+    <div className="xl:px-5 py-5 ">
       {/* Course Title */}
       <div className="mb-5 flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-secondary">
+        <h2 className="text-lg md:text-2xl font-semibold text-secondary">
           {course?.title}
         </h2>
         <Link
           href={`/admin/add-module/${id}`}
-          className="flex items-center gap-1.5 bg-secondary text-white px-4 py-2 rounded-xl cursor-pointer text-lg font-semibold"
+          className="flex items-center gap-1.5 bg-secondary text-white px-4 py-2 rounded-xl cursor-pointer text-base md:text-lg font-semibold"
         >
           <FaPlus /> Add Module
         </Link>
@@ -50,28 +50,28 @@ function ManageModule() {
         {course?.modules.map((module: any) => (
           <div
             key={module._id}
-            className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition flex flex-col space-y-4 border border-secondary"
+            className="bg-white shadow-md rounded-lg p-3 md:p-4 xl:p-6 hover:shadow-lg transition flex flex-col space-y-4 border border-secondary"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col xl:flex-row justify-between xl:items-center gap-5 xl:gap-0">
               <div>
-                <h4 className="text-xl font-bold text-primary">
+                <h4 className="text-base md:text-lg xl:text-xl font-bold text-primary">
                   Module {module?.moduleNumber}: {module?.title}
                 </h4>
-                <p className="font-semibold">
+                <p className="text-xs md:text-sm xl:text-base font-semibold">
                   Lectures: {module?.lectures?.length}
                 </p>
               </div>
-              <div className="space-x-3">
+              <div className="space-x-1.5 md:space-x-3">
                 <button
                   onClick={() => handleToggleLectures(module._id)}
-                  className="bg-primary text-white py-2 px-4 rounded-md hover:bg-primary/90 transition cursor-pointer"
+                  className="bg-primary text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md hover:bg-primary/90 transition cursor-pointer font-medium md:text-base text-[13px]"
                 >
                   {showLecture[module._id] ? "Hide" : "View"} Lectures
                 </button>
-                <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition cursor-pointer">
+                <button className="bg-blue-500 text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md hover:bg-blue-600 transition cursor-pointer font-medium md:text-base text-[13px]">
                   Edit Module
                 </button>
-                <button className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition cursor-pointer">
+                <button className="bg-red-500 text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md hover:bg-red-600 transition cursor-pointer font-medium md:text-base text-[13px]">
                   Delete Module
                 </button>
               </div>

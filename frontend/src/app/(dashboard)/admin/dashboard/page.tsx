@@ -83,7 +83,7 @@ function AdminDashboard() {
   }
 
   return (
-    <div className="py-5">
+    <div className="xl:px-5 py-5">
       <div className="flex justify-between items-center border-b border-secondary/25 pb-3">
         <h3 className="text-2xl font-bold text-secondary">All Courses</h3>
         <button
@@ -94,7 +94,7 @@ function AdminDashboard() {
         </button>
       </div>
 
-      <div className="grid grid-cols-4 gap-6 mt-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 mt-5">
         {courses &&
           courses.map((course: any) => (
             <CourseCard key={course?._id} course={course} />
