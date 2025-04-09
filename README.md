@@ -1,28 +1,33 @@
 # 🎓 Learning Management System (LMS)
 
-A full-stack **Learning Management System** (LMS) built using **TypeScript**, **Next.js**, **Express.js**, and **MongoDB**. The application is divided into two main panels:
-
-- 🧑‍💼 **Admin Dashboard** – For managing course content, modules, and lectures.
-- 👩‍🎓 **User Panel** – For users to browse courses, watch lectures, and track their progress.
+A full-stack Learning Management System built with **Next.js**, **TypeScript**, **Express.js**, and **MongoDB**.  
+This system features two main panels:
+- 🧑‍💼 **Admin Dashboard** – for managing courses, modules, and lectures.
+- 👩‍🎓 **User Panel** – for viewing and tracking course progress.
 
 ---
 
 ## 🚀 Tech Stack
 
-| Layer     | Tech Stack                                |
-|-----------|--------------------------------------------|
-| Frontend  | Next.js (TypeScript), Tailwind CSS         |
-| Backend   | Express.js with MVC Architecture           |
-| Database  | MongoDB (Mongoose for ODM)                 |
-| Package Manager | Yarn                                 |
+| Layer       | Technology                            |
+|-------------|----------------------------------------|
+| Frontend    | Next.js (TypeScript), Tailwind CSS     |
+| Backend     | Express.js (Node.js)                   |
+| Database    | MongoDB with Mongoose ODM              |
+| Architecture| MVC (Model-View-Controller)            |
+| Package Manager | Yarn                              |
 
 ---
 
-## ✅ Features Implemented (Based on Given Requirements)
+## ✨ Features
+
+This website provides the following functionalities:
+
+---
 
 ### 🧑‍💼 Admin Dashboard
 
-> 🔐 Authentication Required
+🔐 **Authentication Required**
 
 #### 📚 Course Management
 - Upload new courses with:
@@ -30,84 +35,79 @@ A full-stack **Learning Management System** (LMS) built using **TypeScript**, **
   - ✅ Title
   - ✅ Price
   - ✅ Description
-- ✅ Display courses in a grid layout with thumbnails and brief info.
-- ✅ Dynamic routing: Clicking on a course opens its respective **Module & Lecture Management** page.
+- ✅ Display courses in a grid layout with thumbnails and basic info
+- ✅ Dynamic routing: Clicking on a course navigates to its Module & Lecture Management page
 
 #### 🧩 Module & Lecture Management
-- ✅ Add new modules with:
+- ✅ Create modules with:
   - Title
   - Auto-incremented Module Number
 - ✅ Add lectures under modules with:
   - Title
   - YouTube Video URL support
   - Multiple PDF notes (upload supported)
-- ✅ Perform full CRUD operations for modules and lectures.
+- ✅ Full CRUD operations for both modules and lectures
 
 ---
 
 ### 👩‍🎓 User Panel
 
 #### 📘 Course Details Page
-- ✅ Dynamically display course info:
+- ✅ Display full course information:
   - Thumbnail
   - Title
   - Price
   - Description
-- ✅ Additional sections (static): reviews, instructor details
+- ✅ Additional static sections:
+  - Instructor information
+  - Reviews
 
 #### 🎥 Lecture Page
-- ✅ Display modules in numbered & expandable list
+- ✅ Numbered modules with expandable lecture lists
 - ✅ Search bar to filter lectures by title
-- ✅ Sequential unlocking of lectures:
-  - Only after completing the current lecture, the next one is unlocked
-- ✅ Video streaming support via embedded YouTube links
-- ✅ PDF Notes (multiple per lecture) available for view/download
-- ✅ Progress tracking with:
-  - Checkmarks or visual progress bar
+- ✅ Sequential unlocking:
+  - Only the next lecture is unlocked after the current one is completed
+- ✅ Embedded video streaming support via YouTube
+- ✅ PDF Notes available for download/view (multiple files per lecture)
+- ✅ Progress tracking using checkmarks or progress bar
 
 ---
 
-## 📱 Responsive UI
+### 📱 Responsive Design
 
-- ✅ Fully responsive across all screen sizes
-- ✅ Built with Tailwind CSS using modern and polished UI/UX practices
-
----
-
-## 🧱 Backend Architecture
-
-- ✅ Follows **MVC pattern**:
-  - `routes/` – All endpoints
-  - `controllers/` – Logic for handling routes
-  - `models/` – Mongoose schemas
-  - `services/` – Business logic and helpers
+- ✅ Fully responsive across all screen sizes (mobile, tablet, desktop)
+- ✅ Built using Tailwind CSS with a modern and clean UI
 
 ---
 
-## 🔄 Dynamic Content
+### 🧱 Backend Architecture
 
-- ✅ All user-facing content (courses, modules, lectures) is **fetched directly from admin uploads** ensuring real-time updates.
-
----
-
-## 🔐 Test Credentials
-
-| Role  | Email                  | Password   |
-|-------|------------------------|------------|
-| Admin | `admin@gmail.com`      | `admin123` |
-| User  | `rockydey23@gmail.com` | `12345678` |
+- ✅ Follows **MVC Architecture**:
+  - `routes/` – Handles endpoints
+  - `controllers/` – Contains route logic
+  - `models/` – MongoDB schemas (via Mongoose)
+  - `services/` – Business logic and utilities
 
 ---
 
-## 🛠 Installation & Running Locally
+### 🔄 Dynamic Content
+
+- ✅ All user-facing content (courses, modules, lectures) is fully dynamic and reflects real-time data added from the admin panel
+
+---
+
+## 🧪 Test Credentials
+
+| Role  | Email                     | Password  |
+|-------|---------------------------|-----------|
+| Admin | `admin@gmail.com`         | `admin123`|
+| User  | `rockydey23@gmail.com`    | `12345678`|
+
+---
+
+## 📦 Getting Started
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/learning-management-system.git
-
-# Navigate into the project
-cd learning-management-system
-
 # Install dependencies
 yarn install
 
@@ -115,4 +115,6 @@ yarn install
 yarn dev
 
 # Run backend (Express)
-yarn server
+cd server
+yarn install
+yarn dev
