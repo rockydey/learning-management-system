@@ -47,6 +47,12 @@ const registerUserSchema = new Schema<TRegisterUser, UserModel>(
       type: String,
       required: false,
     },
+    purchaseCourse: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Course',
+      },
+    ],
   },
   {
     timestamps: true,

@@ -19,8 +19,10 @@ router.post(
   CourseControllers.createCourse,
 );
 
-router.get('/', auth('admin'), CourseControllers.getAllCourses);
+router.get('/', CourseControllers.getAllCourses);
 
-router.get('/:id', auth('admin'), CourseControllers.getSingleCourse);
+router.get('/:id', CourseControllers.getSingleCourse);
+
+router.post('/purchase/:id', auth('user'), CourseControllers.purchaseCourse);
 
 export const CourseRoutes = router;

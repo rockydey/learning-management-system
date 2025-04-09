@@ -38,8 +38,23 @@ const getSingleCourse = catchAsync(async (req, res) => {
   });
 });
 
+const purchaseCourse = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const email = req?.user?.email;
+
+  const result = await CourseServices.purchaseCourse(id, email);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Course purchase successful!',
+    data: result,
+  });
+});
+
 export const CourseControllers = {
   createCourse,
   getAllCourses,
   getSingleCourse,
+  purchaseCourse,
 };

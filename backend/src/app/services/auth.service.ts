@@ -48,7 +48,7 @@ const loginUser = async (payload: TLoginUser) => {
 const getMeFromDB = async (payload: JwtPayload) => {
   const { role, email } = payload;
 
-  const result = await User.findOne({ role, email });
+  const result = await User.findOne({ role, email }).populate('purchaseCourse');
 
   return result;
 };

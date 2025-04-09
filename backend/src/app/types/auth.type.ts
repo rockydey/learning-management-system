@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { USER_ROLE } from '../constants/user.constant';
 
 export type TRegisterUser = {
@@ -11,6 +11,7 @@ export type TRegisterUser = {
   status: 'active' | 'blocked';
   isDeleted: boolean;
   profileImg?: string;
+  purchaseCourse: Types.ObjectId[];
 };
 
 export type TLoginUser = {
