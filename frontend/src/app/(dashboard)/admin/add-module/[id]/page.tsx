@@ -3,7 +3,7 @@
 
 import { useCreateModule } from "@/hooks/useModuleMutation";
 import { getToken } from "@/hooks/useToken";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -20,6 +20,7 @@ function AddModule() {
   const [lectures, setLectures] = useState<Lecture[]>([
     { title: "", videoURL: "", pdfLinks: [""] },
   ]);
+  const router = useRouter();
 
   const { mutate: createModule, isPending } = useCreateModule();
 
@@ -76,6 +77,7 @@ function AddModule() {
         // Reset form fields
         setTitle("");
         setLectures([{ title: "", videoURL: "", pdfLinks: [""] }]);
+        router.push(`/admin/manage-module/${id}`);
       },
       onError: (error: any) => {
         const errorMessage =
