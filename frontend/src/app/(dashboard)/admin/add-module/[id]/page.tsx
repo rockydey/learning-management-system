@@ -3,9 +3,11 @@
 
 import { useCreateModule } from "@/hooks/useModuleMutation";
 import { getToken } from "@/hooks/useToken";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { FaChevronLeft } from "react-icons/fa";
 
 type Lecture = {
   title: string;
@@ -18,7 +20,7 @@ function AddModule() {
   const token = getToken();
   const [title, setTitle] = useState("");
   const [lectures, setLectures] = useState<Lecture[]>([
-    { title: "", videoURL: "", pdfLinks: [""] },
+    { title: "", videoURL: "", pdfLinks: [] },
   ]);
   const router = useRouter();
 
@@ -51,7 +53,7 @@ function AddModule() {
   };
 
   const addLecture = () => {
-    setLectures([...lectures, { title: "", videoURL: "", pdfLinks: [""] }]);
+    setLectures([...lectures, { title: "", videoURL: "", pdfLinks: [] }]);
   };
 
   const removeLecture = (index: number) => {
@@ -76,7 +78,7 @@ function AddModule() {
         toast.success("Course added successfully!");
         // Reset form fields
         setTitle("");
-        setLectures([{ title: "", videoURL: "", pdfLinks: [""] }]);
+        setLectures([{ title: "", videoURL: "", pdfLinks: [] }]);
         router.push(`/admin/manage-module/${id}`);
       },
       onError: (error: any) => {
@@ -89,12 +91,16 @@ function AddModule() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
-      <h1
-        className="text-3xl font-bold mb-2"
-        style={{ color: "var(--color-heading)" }}
-      >
-        Create Module
-      </h1>
+      <div className="flex items-center justify-between mb-2">
+        <Link
+          href={`/admin/manage-module/${id}`}
+          className="flex items-center gap-1.5 text-base font-semibold"
+        >
+          <FaChevronLeft /> Back
+        </Link>
+        <h1 className="text-3xl font-bold text-heading">Create Module</h1>
+        <div></div>
+      </div>
 
       <form
         onSubmit={handleSubmit}
@@ -110,6 +116,7 @@ function AddModule() {
           <input
             type="text"
             value={title}
+            required
             onChange={(e) => setTitle(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none "
             placeholder="e.g., Getting Started with Backend APIs"
@@ -138,6 +145,7 @@ function AddModule() {
                 </label>
                 <input
                   type="text"
+                  required
                   value={lecture.title}
                   onChange={(e) =>
                     handleLectureChange(index, "title", e.target.value)
@@ -153,6 +161,7 @@ function AddModule() {
                 <input
                   type="text"
                   value={lecture.videoURL}
+                  required
                   onChange={(e) =>
                     handleLectureChange(index, "videoURL", e.target.value)
                   }
