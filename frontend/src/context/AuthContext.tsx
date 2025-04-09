@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useGetUser } from "@/hooks/useGetUser";
+import toast from "react-hot-toast";
 
 interface User {
   _id: string;
@@ -62,6 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = () => {
     localStorage.removeItem("accessToken");
     setToken(null);
+    toast.success("Logout successful!");
     router.push("/login");
   };
 

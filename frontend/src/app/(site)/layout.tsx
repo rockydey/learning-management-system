@@ -8,7 +8,7 @@ const SiteLayout = ({ children }: { children: React.ReactNode }) => {
         <Navbar />
       </div>
       {children}
-      <div className="mt-16">
+      <div>
         <Footer />
       </div>
     </section>

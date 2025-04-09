@@ -11,34 +11,23 @@ interface CreateCourseProps {
   accessToken: string;
 }
 
-export const useGetCourse = (accessToken: string) =>
+export const useGetCourse = () =>
   useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/course", {
-        headers: {
-          Authorization: accessToken,
-        },
-      });
-
+      const res = await axiosInstance.get("/course");
       return res.data.data;
     },
-    enabled: !!accessToken,
   });
 
-export const useGetSingleCourse = (id: string, accessToken: string) =>
+export const useGetSingleCourse = (id: string) =>
   useQuery({
     queryKey: ["course", id],
     queryFn: async () => {
-      const res = await axiosInstance.get(`/course/${id}`, {
-        headers: {
-          Authorization: accessToken,
-        },
-      });
-
+      const res = await axiosInstance.get(`/course/${id}`);
       return res.data.data;
     },
-    enabled: !!id && !!accessToken,
+    enabled: !!id,
   });
 
 export const useCreateCourse = () => {

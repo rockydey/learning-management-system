@@ -4,18 +4,13 @@
 import { useState } from "react";
 import { Loader } from "@/components/Loader/Loader";
 import { useGetSingleCourse } from "@/hooks/useCourseMutation";
-import { getToken } from "@/hooks/useToken";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { FaPlus } from "react-icons/fa";
 
 function ManageModule() {
   const { id } = useParams();
-  const token = getToken();
-  const { data: course, isLoading } = useGetSingleCourse(
-    id as string,
-    token as string
-  );
+  const { data: course, isLoading } = useGetSingleCourse(id as string);
   const [showLecture, setShowLecture] = useState<Record<string, boolean>>({});
 
   // Handle loading state

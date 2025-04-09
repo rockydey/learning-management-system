@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface ICourse {
   _id: string;
@@ -17,6 +18,8 @@ interface ICourseCardProps {
 }
 
 const CourseCard: React.FC<ICourseCardProps> = ({ course }) => {
+  const pathname = usePathname();
+
   return (
     <div className="bg-white rounded-2xl overflow-hidden w-full max-w-sm border-2 border-secondary">
       <div className="relative w-full h-48">
@@ -41,12 +44,21 @@ const CourseCard: React.FC<ICourseCardProps> = ({ course }) => {
           <span className="text-lg font-bold text-secondary">
             ${Number(course.price).toFixed(2)}
           </span>
-          <Link
-            href={`/admin/manage-module/${course?._id}`}
-            className="px-4 py-1.5 bg-secondary text-white text-sm font-medium rounded-md hover:bg-secondary/90 transition cursor-pointer"
-          >
-            Manage Modules
-          </Link>
+          {pathname === "/courses" ? (
+            <Link
+              href={`courses/${course?._id}`}
+              className="px-4 py-1.5 bg-secondary text-white text-sm font-medium rounded-md hover:bg-secondary/90 transition cursor-pointer"
+            >
+              View Details
+            </Link>
+          ) : (
+            <Link
+              href={`/admin/manage-module/${course?._id}`}
+              className="px-4 py-1.5 bg-secondary text-white text-sm font-medium rounded-md hover:bg-secondary/90 transition cursor-pointer"
+            >
+              Manage Modules
+            </Link>
+          )}
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import LogoIcon from "@/assets/Shared/LogoIcon.png";
+import { IoMdLogOut } from "react-icons/io";
 
 const MobileMenu = () => {
   const { logout, user } = useAuth();
@@ -73,7 +74,7 @@ const MobileMenu = () => {
                     ? "text-primary bg-secondary/50"
                     : "text-white hover:bg-secondary/40"
                 }`}
-                onClick={toggleMenu} // Close menu after clicking a link
+                onClick={toggleMenu}
               >
                 {item?.icon}
                 {item?.title}
@@ -94,11 +95,11 @@ const MobileMenu = () => {
             <button
               onClick={() => {
                 logout();
-                setIsOpen(false); // Close the menu after logging out
+                setIsOpen(false);
               }}
               className="flex items-center gap-1.5 cursor-pointer p-3 rounded-lg text-white hover:bg-secondary/40 transition-colors"
             >
-              <FaTimes />
+              <IoMdLogOut />
               Logout
             </button>
           </div>

@@ -19,7 +19,7 @@ interface FromDataProps {
 
 function AdminDashboard() {
   const token = getToken();
-  const { data: courses, isLoading } = useGetCourse(token as string);
+  const { data: courses, isLoading } = useGetCourse();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [formData, setFormData] = useState<FromDataProps>({
     title: "",

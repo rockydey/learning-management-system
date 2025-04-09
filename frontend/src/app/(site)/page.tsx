@@ -3,7 +3,7 @@ import Instructors from "@/components/Home/Instructors";
 
 export default function Home() {
   return (
-    <div className="space-y-16">
+    <div className="space-y-16 pb-16">
       <Hero />
       <Instructors />
     </div>
