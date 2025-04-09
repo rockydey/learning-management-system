@@ -2,10 +2,8 @@ import { z } from 'zod';
 
 const createLectureValidationSchema = z.object({
   title: z.string({ required_error: 'Lecture title is required!' }),
-  videoURL: z
-    .string({ required_error: 'Video URL is required!' })
-    .url('Video URL must be valid'),
-  pdfLinks: z.array(z.string().url()).optional().default([]),
+  videoURL: z.string({ required_error: 'Video URL is required!' }),
+  pdfLinks: z.array(z.string()).optional().default([]),
   locked: z.boolean().optional().default(true),
 });
 

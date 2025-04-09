@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import AppError from '../errors/AppError';
 import { Course } from '../models/course.model';
 import { TCourse } from '../types/course.type';
 import { uploadImage } from '../utils/uploadImage';
@@ -24,7 +25,19 @@ const getAllCoursesFromDB = async () => {
   return courses;
 };
 
+const getSingleCourseFromDB = async (id: string) => {
+  const courseExists = await Course.isCourseExists(id);
+
+  if (!courseExists) {
+    throw new AppError(404, 'Course not found!');
+  }
+
+  const course = await Course.findById(id).populate('modules');
+  return course;
+};
+
 export const CourseServices = {
   createCourseIntoDB,
   getAllCoursesFromDB,
+  getSingleCourseFromDB,
 };

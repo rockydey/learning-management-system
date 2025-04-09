@@ -21,4 +21,6 @@ router.post(
 
 router.get('/', auth('admin'), CourseControllers.getAllCourses);
 
+router.get('/:id', auth('admin'), CourseControllers.getSingleCourse);
+
 export const CourseRoutes = router;
