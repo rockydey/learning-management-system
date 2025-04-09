@@ -43,9 +43,9 @@ function Register() {
     event.preventDefault();
 
     mutate(formData, {
-      onSuccess: (data: any) => {
-        toast.success(data?.message);
-        router.push("/");
+      onSuccess: () => {
+        toast.success("Register successful. Login Now!");
+        router.push("/login");
       },
       onError: (error: any) => {
         const errorMessage =

@@ -114,6 +114,10 @@ function ManageModule() {
             )}
           </div>
         ))}
+
+        {course?.modules.length === 0 && (
+          <p className="text-center text-red-500">No module found!</p>
+        )}
       </div>
     </div>
   );

@@ -42,7 +42,7 @@ const CourseCard: React.FC<ICourseCardProps> = ({ course }) => {
         </div>
         <div className="flex items-center justify-between mt-auto">
           <span className="text-lg font-bold text-secondary">
-            ${Number(course.price).toFixed(2)}
+            ₹{Number(course.price).toFixed(2)}
           </span>
           {pathname === "/courses" ? (
             <Link

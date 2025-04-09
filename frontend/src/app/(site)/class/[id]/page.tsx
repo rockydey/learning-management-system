@@ -15,49 +15,65 @@ function ClassPage() {
   const { id } = useParams();
   const { data: course, isLoading } = useGetSingleCourse(id as string);
 
-  const [currentVideo, setCurrentVideo] = useState<string | null>(null);
+  const [currentLectureId, setCurrentLectureId] = useState<string | null>(null);
   const [unlockedLectures, setUnlockedLectures] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
+  // Get current lecture based on ID
+  const getCurrentLecture = () => {
+    for (const mod of course?.modules || []) {
+      for (const lec of mod.lectures) {
+        if (lec._id === currentLectureId) return lec;
+      }
+    }
+    return null;
+  };
+
+  const currentLecture = getCurrentLecture();
+
+  // Initialize first lecture
   useEffect(() => {
     if (course && course.modules.length > 0 && unlockedLectures.length === 0) {
       const firstLecture = course.modules[0].lectures[0];
       setUnlockedLectures([firstLecture._id]);
-      setCurrentVideo(firstLecture.videoURL);
+      setCurrentLectureId(firstLecture._id);
     }
   }, [course]);
 
+  const unlockAndPlay = (lecture: any) => {
+    if (!unlockedLectures.includes(lecture._id)) {
+      setUnlockedLectures((prev) => [...prev, lecture._id]);
+    }
+    setCurrentLectureId(lecture._id);
+  };
+
   const handleNext = () => {
+    if (!course || !currentLecture) return;
+
     for (let i = 0; i < course.modules.length; i++) {
       const mod = course.modules[i];
+
       for (let j = 0; j < mod.lectures.length; j++) {
         const lec = mod.lectures[j];
-        if (lec.videoURL === currentVideo) {
+
+        if (lec._id === currentLecture._id) {
+          // Next lecture in same module
           if (mod.lectures[j + 1]) {
-            const next = mod.lectures[j + 1];
-            setUnlockedLectures((prev) => [...new Set([...prev, next._id])]);
-            setCurrentVideo(next.videoURL);
+            unlockAndPlay(mod.lectures[j + 1]);
             return;
           }
-          if (course.modules[i + 1]) {
-            const nextModuleFirst = course.modules[i + 1].lectures[0];
-            setUnlockedLectures((prev) => [
-              ...new Set([...prev, nextModuleFirst._id]),
-            ]);
-            setCurrentVideo(nextModuleFirst.videoURL);
+
+          // First lecture in next module
+          if (course.modules[i + 1]?.lectures?.length > 0) {
+            unlockAndPlay(course.modules[i + 1].lectures[0]);
             return;
           }
+
+          // No more lectures
+          return;
         }
       }
     }
-  };
-
-  const getCurrentLecture = () => {
-    for (const mod of course?.modules || []) {
-      for (const lec of mod.lectures) {
-        if (lec.videoURL === currentVideo) return lec;
-      }
-    }
-    return null;
   };
 
   const getProgress = () => {
@@ -66,8 +82,16 @@ function ClassPage() {
     return ((unlockedLectures.length / totalLectures) * 100).toFixed(0);
   };
 
+  const filteredLectures = (modules: any[]) => {
+    return modules.map((mod) => ({
+      ...mod,
+      lectures: mod.lectures.filter((lec: any) =>
+        lec.title.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    }));
+  };
+
   if (isLoading || !course) return <Loader />;
-  const currentLecture = getCurrentLecture();
 
   return (
     <AuthWrapper>
@@ -91,11 +115,17 @@ function ClassPage() {
 
           {/* Video */}
           <div className="aspect-video mb-4 rounded overflow-hidden">
-            <iframe
-              className="w-full h-full"
-              src={currentVideo || ""}
-              allowFullScreen
-            />
+            {currentLecture?.videoURL ? (
+              <iframe
+                className="w-full h-full"
+                src={currentLecture.videoURL}
+                allowFullScreen
+              />
+            ) : (
+              <div className="w-full h-full bg-gray-800 flex items-center justify-center">
+                <p>No Video Available</p>
+              </div>
+            )}
           </div>
 
           {/* Next Button */}
@@ -144,18 +174,18 @@ function ClassPage() {
         {/* Right: Modules & Lectures */}
         <div className="w-full md:w-[350px] space-y-4">
           <div className="p-4 bg-secondary rounded-2xl shadow-md">
-            <p className="font-bold text-white text-lg mb-2">
-              Course: {course.title}
-            </p>
+            <p className="font-bold text-white text-lg mb-2">{course.title}</p>
             <input
               type="text"
               placeholder="Search Lesson..."
               className="w-full px-4 py-2 focus:outline-0 rounded-md text-sm text-black outline-none bg-white"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
           {/* Modules */}
-          {course.modules.map((mod: any) => (
+          {filteredLectures(course.modules).map((mod: any) => (
             <div
               key={mod._id}
               className="bg-secondary p-4 rounded-2xl shadow-sm text-white"
@@ -174,9 +204,7 @@ function ClassPage() {
                           ? "bg-white text-black border-primary hover:bg-primary hover:text-white"
                           : "bg-gray-700 text-gray-300 border-gray-600"
                       }`}
-                      onClick={() =>
-                        isUnlocked && setCurrentVideo(lec.videoURL)
-                      }
+                      onClick={() => isUnlocked && setCurrentLectureId(lec._id)}
                     >
                       <span className="text-sm">{lec.title}</span>
                       {isUnlocked ? (
