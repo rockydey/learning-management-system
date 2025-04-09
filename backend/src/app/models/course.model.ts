@@ -18,7 +18,7 @@ const courseSchema = new Schema<TCourse, CourseModel>(
       trim: true,
     },
     price: {
-      type: Number,
+      type: String,
       required: true,
     },
     modules: [

@@ -4,7 +4,7 @@ import { Model, Types } from 'mongoose';
 export type TCourse = {
   thumbnail?: string;
   title: string;
-  price: number;
+  price: string;
   description: string;
   modules: Types.ObjectId[];
 };
