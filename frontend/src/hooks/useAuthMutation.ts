@@ -1,32 +1,43 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import axiosInstance from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
+import axiosInstance from "@/lib/axios";
 
-interface FormData {
-  name: string;
-  email: string;
-  number: string;
-  password: string;
-}
-
-interface RegisterResponse {
-  data: any;
-}
+const setTokenCookie = (token: string) => {
+  document.cookie = `accessToken=${token}; path=/; samesite=strict; secure`;
+};
 
 export const useLoginMutation = () =>
   useMutation({
     mutationFn: async (credentials: { email: string; password: string }) => {
       const res = await axiosInstance.post("/auth/login", credentials);
+
+      const token = res.data.data.accessToken;
+      if (token) {
+        setTokenCookie(token);
+        axiosInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
+      }
+
       return res.data.data;
     },
   });
 
 export const useRegisterMutation = () => {
-  return useMutation<RegisterResponse, Error, FormData>({
-    mutationFn: async (formData: FormData) => {
+  return useMutation({
+    mutationFn: async (formData: {
+      name: string;
+      email: string;
+      number: string;
+      password: string;
+    }) => {
       const res = await axiosInstance.post("/auth/register", formData);
+
+      const token = res.data.data.accessToken;
+      if (token) {
+        setTokenCookie(token);
+        axiosInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
+      }
+
       return res.data.data;
     },
   });

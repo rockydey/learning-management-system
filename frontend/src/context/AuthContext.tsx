@@ -91,6 +91,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Logout user function
   const logout = () => {
     localStorage.removeItem("accessToken");
+    document.cookie =
+      "accessToken=; path=/; samesite=strict; secure; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     setToken(null);
     toast.success("Logout successful!");
     router.push("/login");

@@ -36,13 +36,22 @@ function Navbar() {
   const { user, logout } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  // Hydration fix: only use dropdown after client mount
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setToggle(false);
+  }, [pathname]);
+
   const handleDropdownToggle = () => {
     setIsDropdownOpen((prevState) => !prevState);
   };
 
-  useEffect(() => {
-    setToggle(false);
-  }, [pathname]);
+  if (!isClient) {
+    // Prevent rendering dropdown on SSR (hydration issue fix)
+    return null;
+  }
 
   return (
     <nav className="bg-primary py-5 shadow-lg fixed top-0 w-full z-40">
