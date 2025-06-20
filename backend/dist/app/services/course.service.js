@@ -17,6 +17,7 @@ exports.CourseServices = void 0;
 const AppError_1 = __importDefault(require("../errors/AppError"));
 const auth_model_1 = require("../models/auth.model");
 const course_model_1 = require("../models/course.model");
+const module_model_1 = require("../models/module.model");
 const uploadImage_1 = require("../utils/uploadImage");
 const createCourseIntoDB = (file, payload) => __awaiter(void 0, void 0, void 0, function* () {
     // Upload image to cloudinary
@@ -50,9 +51,22 @@ const purchaseCourse = (id, email) => __awaiter(void 0, void 0, void 0, function
     const updatedUser = yield auth_model_1.User.findOneAndUpdate({ email }, { $addToSet: { purchaseCourse: id } }, { new: true });
     return updatedUser;
 });
+const deleteCourse = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const courseExists = yield course_model_1.Course.isCourseExists(id);
+    if (!courseExists) {
+        throw new AppError_1.default(404, 'Course not found!');
+    }
+    const modules = yield module_model_1.Module.find({ course: id });
+    if (modules.length > 0) {
+        yield module_model_1.Module.deleteMany({ course: id });
+    }
+    yield course_model_1.Course.deleteOne({ _id: id });
+    return { message: 'Course deleted successfully' };
+});
 exports.CourseServices = {
     createCourseIntoDB,
     getAllCoursesFromDB,
     getSingleCourseFromDB,
     purchaseCourse,
+    deleteCourse,
 };

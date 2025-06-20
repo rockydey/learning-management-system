@@ -57,9 +57,20 @@ const purchaseCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
         data: result,
     });
 }));
+const deleteCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield course_service_1.CourseServices.deleteCourse(id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Course deleted successfully!',
+        data: result,
+    });
+}));
 exports.CourseControllers = {
     createCourse,
     getAllCourses,
     getSingleCourse,
     purchaseCourse,
+    deleteCourse,
 };

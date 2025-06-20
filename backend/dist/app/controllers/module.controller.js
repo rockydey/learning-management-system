@@ -25,6 +25,39 @@ const createModule = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         data: result,
     });
 }));
+const deleteModule = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield module_service_1.ModuleServices.deleteModuleFromDB(id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Module deleted successfully!',
+        data: result,
+    });
+}));
+const getModuleById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield module_service_1.ModuleServices.getModuleByIdFromDB(id);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Module fetched successfully!',
+        data: result,
+    });
+}));
+const updateModule = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield module_service_1.ModuleServices.updateModuleIntoDB(id, req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Module updated successfully!',
+        data: result,
+    });
+}));
 exports.ModuleControllers = {
     createModule,
+    deleteModule,
+    getModuleById,
+    updateModule,
 };

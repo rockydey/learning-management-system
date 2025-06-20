@@ -18,4 +18,5 @@ router.post('/create-course', (0, auth_1.default)('admin'), uploadImage_1.upload
 router.get('/', course_controller_1.CourseControllers.getAllCourses);
 router.get('/:id', course_controller_1.CourseControllers.getSingleCourse);
 router.post('/purchase/:id', (0, auth_1.default)('user'), course_controller_1.CourseControllers.purchaseCourse);
+router.delete('/:id', (0, auth_1.default)('admin'), course_controller_1.CourseControllers.deleteCourse);
 exports.CourseRoutes = router;

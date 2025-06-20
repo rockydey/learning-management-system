@@ -22,7 +22,7 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         yield mongoose_1.default.connect(config_1.default.database_url);
         server = app_1.default.listen(config_1.default.port, () => {
-            console.log(`Academix server is running on port ${config_1.default.node_env}`);
+            console.log(`Academix server is running on port ${config_1.default.port}`);
         });
     });
 }
