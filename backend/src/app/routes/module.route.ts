@@ -15,4 +15,8 @@ router.post(
 
 router.delete('/:id', auth('admin'), ModuleControllers.deleteModule);
 
+router.get('/:id', auth('admin'), ModuleControllers.getModuleById);
+
+router.patch('/:id', auth('admin'), ModuleControllers.updateModule);
+
 export const ModuleRoutes = router;

@@ -24,7 +24,31 @@ const deleteModule = catchAsync(async (req, res) => {
   });
 });
 
+const getModuleById = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await ModuleServices.getModuleByIdFromDB(id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Module fetched successfully!',
+    data: result,
+  });
+});
+
+const updateModule = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await ModuleServices.updateModuleIntoDB(id, req.body);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Module updated successfully!',
+    data: result,
+  });
+});
+
 export const ModuleControllers = {
   createModule,
   deleteModule,
+  getModuleById,
+  updateModule,
 };

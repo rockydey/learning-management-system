@@ -86,7 +86,21 @@ const deleteModuleFromDB = async (moduleId: string) => {
   return result;
 };
 
+const getModuleByIdFromDB = async (id: string) => {
+  const result = await Module.findById(id);
+  return result;
+};
+
+const updateModuleIntoDB = async (id: string, payload: Partial<TModule>) => {
+  const result = await Module.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
+
 export const ModuleServices = {
   createModuleIntoDB,
   deleteModuleFromDB,
+  getModuleByIdFromDB,
+  updateModuleIntoDB,
 };
