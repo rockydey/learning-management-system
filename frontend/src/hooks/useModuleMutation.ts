@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 type Lecture = {
   title: string;
@@ -8,6 +8,13 @@ type Lecture = {
 };
 
 type CreateModuleProps = {
+  title: string;
+  course: string;
+  lectures: Lecture[];
+  accessToken: string;
+};
+
+type UpdateModuleProps = {
   title: string;
   course: string;
   lectures: Lecture[];
@@ -49,6 +56,46 @@ export const useDeleteModule = () => {
   return useMutation({
     mutationFn: async (id: string) => {
       const res = await axiosInstance.delete(`/module/${id}`);
+      return res.data.data;
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["modules"] });
+    },
+  });
+};
+
+export const useGetModuleById = (id: string) => {
+  return useQuery({
+    queryKey: ["module", id],
+    queryFn: async () => {
+      const res = await axiosInstance.get(`/module/${id}`);
+      return res.data.data;
+    },
+    enabled: !!id,
+  });
+};
+
+export const useUpdateModule = (id: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      title,
+      course,
+      lectures,
+      accessToken,
+    }: UpdateModuleProps) => {
+      const res = await axiosInstance.patch(
+        `/module/${id}`,
+        { title, course, lectures },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       return res.data.data;
     },
     onSettled: () => {

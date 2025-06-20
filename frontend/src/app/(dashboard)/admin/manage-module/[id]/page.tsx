@@ -93,9 +93,12 @@ function ManageModule() {
                 >
                   {showLecture[module._id] ? "Hide" : "View"} Lectures
                 </button>
-                <button className="bg-blue-500 text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md hover:bg-blue-600 transition cursor-pointer font-medium md:text-base text-[13px]">
+                <Link
+                  href={`/admin/edit-module/${module?._id}`}
+                  className="bg-blue-500 text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md hover:bg-blue-600 transition cursor-pointer font-medium md:text-base text-[13px]"
+                >
                   Edit Module
-                </button>
+                </Link>
                 <button
                   onClick={() => handleDeleteModule(module?._id)}
                   className="bg-red-500 text-white py-1.5 md:py-2 px-2 md:px-4 rounded-md hover:bg-red-600 transition cursor-pointer font-medium md:text-base text-[13px]"
