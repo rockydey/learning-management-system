@@ -13,6 +13,18 @@ const createModule = catchAsync(async (req, res) => {
   });
 });
 
+const deleteModule = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await ModuleServices.deleteModuleFromDB(id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Module deleted successfully!',
+    data: result,
+  });
+});
+
 export const ModuleControllers = {
   createModule,
+  deleteModule,
 };

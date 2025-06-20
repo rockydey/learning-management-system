@@ -2,6 +2,7 @@
 import AppError from '../errors/AppError';
 import { User } from '../models/auth.model';
 import { Course } from '../models/course.model';
+import { Module } from '../models/module.model';
 import { TCourse } from '../types/course.type';
 import { uploadImage } from '../utils/uploadImage';
 
@@ -53,9 +54,27 @@ const purchaseCourse = async (id: string, email: string) => {
   return updatedUser;
 };
 
+const deleteCourse = async (id: string) => {
+  const courseExists = await Course.isCourseExists(id);
+
+  if (!courseExists) {
+    throw new AppError(404, 'Course not found!');
+  }
+
+  const modules = await Module.find({ course: id });
+
+  if (modules.length > 0) {
+    await Module.deleteMany({ course: id });
+  }
+
+  await Course.deleteOne({ _id: id });
+
+  return { message: 'Course deleted successfully' };
+};
 export const CourseServices = {
   createCourseIntoDB,
   getAllCoursesFromDB,
   getSingleCourseFromDB,
   purchaseCourse,
+  deleteCourse,
 };

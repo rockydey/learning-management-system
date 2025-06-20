@@ -13,4 +13,6 @@ router.post(
   ModuleControllers.createModule,
 );
 
+router.delete('/:id', auth('admin'), ModuleControllers.deleteModule);
+
 export const ModuleRoutes = router;

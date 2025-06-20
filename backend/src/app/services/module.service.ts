@@ -52,6 +52,41 @@ const createModuleIntoDB = async (payload: TModule) => {
   }
 };
 
+const deleteModuleFromDB = async (moduleId: string) => {
+  const objectId = new mongoose.Types.ObjectId(moduleId);
+
+  const module = await Module.findById(objectId);
+
+  if (!module) {
+    throw new AppError(404, 'Module not found!');
+  }
+
+  const courseId = module.course;
+
+  const course = await Course.findById(courseId);
+
+  if (!course) {
+    throw new AppError(404, 'Course not found!');
+  }
+
+  const moduleIndex = course.modules.indexOf(objectId);
+  if (moduleIndex > -1) {
+    course.modules.splice(moduleIndex, 1);
+    await course.save();
+  } else {
+    throw new AppError(404, 'Module reference not found in course!');
+  }
+
+  const result = await Module.findByIdAndDelete(objectId);
+
+  if (!result) {
+    throw new AppError(404, 'Module could not be deleted!');
+  }
+
+  return result;
+};
+
 export const ModuleServices = {
   createModuleIntoDB,
+  deleteModuleFromDB,
 };

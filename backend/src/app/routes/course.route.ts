@@ -25,4 +25,6 @@ router.get('/:id', CourseControllers.getSingleCourse);
 
 router.post('/purchase/:id', auth('user'), CourseControllers.purchaseCourse);
 
+router.delete('/:id', auth('admin'), CourseControllers.deleteCourse);
+
 export const CourseRoutes = router;
