@@ -42,3 +42,17 @@ export const useCreateModule = () => {
     },
   });
 };
+
+export const useDeleteModule = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const res = await axiosInstance.delete(`/module/${id}`);
+      return res.data.data;
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["modules"] });
+    },
+  });
+};

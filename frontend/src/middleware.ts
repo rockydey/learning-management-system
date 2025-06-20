@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
+import { cookies } from "next/headers";
 
 const adminProtectedRoutes = [
   "/admin/dashboard",
@@ -10,10 +11,9 @@ const userProtectedRoutes = ["/user/dashboard", "/user/profile"];
 const courseProtectedRoutes = ["/courses/"];
 const classProtectedRoutes = ["/class/"];
 
-export function middleware(request: NextRequest) {
-  const token =
-    request.headers.get("Authorization")?.replace("Bearer ", "") ||
-    request.cookies.get("accessToken");
+export async function middleware(request: NextRequest) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token");
 
   const pathname = request.nextUrl.pathname.endsWith("/")
     ? request.nextUrl.pathname.slice(0, -1)
@@ -50,7 +50,6 @@ export function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
-
 export const config = {
   matcher: [
     "/admin/dashboard",

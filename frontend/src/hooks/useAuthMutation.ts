@@ -2,9 +2,10 @@
 
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "@/lib/axios";
+import Cookies from "js-cookie";
 
 const setTokenCookie = (token: string) => {
-  document.cookie = `accessToken=${token}; path=/; samesite=strict; secure`;
+  Cookies.set("token", token, { expires: 7, path: "/" });
 };
 
 export const useLoginMutation = () =>

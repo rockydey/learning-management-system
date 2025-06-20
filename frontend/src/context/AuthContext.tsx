@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useGetUser } from "@/hooks/useGetUser";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 interface Lecture {
   _id: string;
@@ -91,8 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Logout user function
   const logout = () => {
     localStorage.removeItem("accessToken");
-    document.cookie =
-      "accessToken=; path=/; samesite=strict; secure; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    Cookies.remove("token");
     setToken(null);
     toast.success("Logout successful!");
     router.push("/login");

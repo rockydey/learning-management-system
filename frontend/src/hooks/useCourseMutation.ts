@@ -82,3 +82,17 @@ export const usePurchaseCourse = () => {
     },
   });
 };
+
+export const useDeleteCourse = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const res = await axiosInstance.delete(`/course/${id}`);
+      return res.data.data;
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["courses"] });
+    },
+  });
+};
