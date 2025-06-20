@@ -15,7 +15,7 @@ function Hero() {
       }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/80" />
+      <div className="absolute inset-0 bg-black/80 " />
 
       {/* Main Footer Content */}
       <div className="relative z-10 text-white w-full pt-20 text-center">
